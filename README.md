@@ -1,1 +1,1 @@
-# go-pssh-packager
+# go-pssh-generator
