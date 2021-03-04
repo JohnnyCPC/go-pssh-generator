@@ -37,7 +37,7 @@ func main() {
 	outstr := fmt.Sprintf("%x", out)
 	outbase64str := base64.StdEncoding.EncodeToString(out)
 
-	//fmt.Printf("PSSH Data: %x \n", out)
+	fmt.Println("PSSH Data: ", outstr)
 	fmt.Println("PSSH Data(base64): ", outbase64str)
 
 	result := util.PsshBoxBinaryString(Version, WIDEVINESYSTEMID, kid, outstr)
