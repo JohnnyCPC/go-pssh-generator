@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/base64"
 	"encoding/hex"
+	"flag"
 	"fmt"
 
 	wvproto "github.com/JohnnyCPC/go-pssh-generator/proto"
@@ -15,18 +16,23 @@ func main() {
 
 	Version := 0
 	WIDEVINESYSTEMID := "EDEF8BA979D64ACEA3C827DCD51D21ED"
-
+	contentid := "Test_Content_ID"
 	provider := "widevine_test"
 
-	keyid := util.CreateRandomK()
-	contentid := "Test_Content_ID"
-	kid, _ := hex.DecodeString(keyid)
-	cid := []byte(contentid)
+	cidFlag := flag.String("contentid", contentid, "Content ID")
+	providerFlag := flag.String("provider", provider, "Provider name")
+	kidFlag := flag.String("keyid", util.CreateRandomK(), "Key ID")
+	//wvBoolFlag := flag.Bool("widevine", false, "widevine system id")
+
+	flag.Parse()
+
+	kid, _ := hex.DecodeString(*kidFlag)
+	cid := []byte(*cidFlag)
 
 	// Protect Scheme: cenc (default)
 	// 0x63 65 6E 63 (cenc), 0x63 65 6E 73 (cens), 0x63 62 63 31 (cbc1), 0x63 62 63 73 (cbcs)
 	wv := &wvproto.WidevinePsshData{
-		Provider:  &provider,
+		Provider:  providerFlag,
 		Algorithm: wvproto.WidevinePsshData_AESCTR.Enum(),
 		KeyId:     [][]byte{kid},
 		ContentId: cid,
@@ -46,6 +52,6 @@ func main() {
 
 	fmt.Printf("PSSH BOX: %v \n", result)
 	fmt.Println("PSSH BOX(base64): ", string(resbase64))
-	fmt.Println("KeyID: ", keyid)
+	fmt.Println("KeyID: ", *kidFlag)
 
 }
