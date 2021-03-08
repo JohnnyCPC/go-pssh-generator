@@ -12,10 +12,13 @@ import (
 	"github.com/golang/protobuf/proto"
 )
 
+const (
+	WIDEVINESYSTEMID = "EDEF8BA979D64ACEA3C827DCD51D21ED"
+)
+
 func main() {
 
 	Version := 0
-	WIDEVINESYSTEMID := "EDEF8BA979D64ACEA3C827DCD51D21ED"
 	contentid := "Test_Content_ID"
 	provider := "widevine_test"
 
