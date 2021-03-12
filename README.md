@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.com/JohnnyCPC/go-pssh-generator.svg?branch=main)](https://travis-ci.com/JohnnyCPC/go-pssh-generator)
 [![Go Report Card](https://goreportcard.com/badge/github.com/JohnnyCPC/go-pssh-generator)](https://goreportcard.com/report/github.com/JohnnyCPC/go-pssh-generator)
+[![codecov](https://codecov.io/gh/JohnnyCPC/go-pssh-generator/branch/main/graph/badge.svg?token=0NT3MZGAEP)](https://codecov.io/gh/JohnnyCPC/go-pssh-generator)
 
 go-pssh-generator is a Protection System Specific Header ('pssh') boxes generator written in Go (Golang).
 

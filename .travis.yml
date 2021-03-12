@@ -9,7 +9,7 @@ before_install:
   - go get -t -v ./...
 
 script:
-  - go test -coverpkg=./... -coverprofile=coverage.txt -covermode=atomic `go list ./... | grep -v ./proto/widevine_pssh_data.pb.go`
+  - go test -coverpkg=./... -coverprofile=coverage.txt -covermode=atomic ./...
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
