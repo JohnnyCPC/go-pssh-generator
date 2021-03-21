@@ -24,12 +24,12 @@ func main() {
 
 	cidFlag := flag.String("contentid", contentid, "Content ID")
 	providerFlag := flag.String("provider", provider, "Provider name")
-	kidFlag := flag.String("keyid", util.CreateRandomK(), "Key ID")
+	kidFlag := flag.String("keyid", "", "Key ID")
+	//hexBoolFlag := flag.Bool("hex", false, "The output can be in hex")
 	//wvBoolFlag := flag.Bool("widevine", false, "widevine system id")
 
 	flag.Parse()
 
-	kid, _ := hex.DecodeString(*kidFlag)
 	cid := []byte(*cidFlag)
 
 	// Protect Scheme: cenc (default)
@@ -37,9 +37,13 @@ func main() {
 	wv := &wvproto.WidevinePsshData{
 		Provider:  providerFlag,
 		Algorithm: wvproto.WidevinePsshData_AESCTR.Enum(),
-		KeyId:     [][]byte{kid},
+		//KeyId:     [][]byte{kid},
 		ContentId: cid,
 		//ProtectionScheme: &psdint,
+	}
+	if *kidFlag != "" {
+		kid, _ := hex.DecodeString(*kidFlag)
+		wv.KeyId = [][]byte{kid}
 	}
 
 	out, _ := proto.Marshal(wv)
@@ -49,12 +53,12 @@ func main() {
 	fmt.Println("PSSH Data: ", outstr)
 	fmt.Println("PSSH Data(base64): ", outbase64str)
 
-	result := util.PsshBoxBinaryString(Version, WIDEVINESYSTEMID, kid, outstr)
+	result := util.PsshBoxBinaryString(Version, WIDEVINESYSTEMID, outstr)
 	reshex, _ := util.DecodeHex([]byte(result))
 	resbase64 := base64.StdEncoding.EncodeToString(reshex)
 
 	fmt.Printf("PSSH BOX: %v \n", result)
 	fmt.Println("PSSH BOX(base64): ", string(resbase64))
-	fmt.Println("KeyID: ", *kidFlag)
+	//fmt.Println("KeyID: ", *kidFlag)
 
 }

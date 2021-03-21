@@ -28,7 +28,7 @@ func TestPsshBoxBinaryString(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := PsshBoxBinaryString(tt.args.ver, tt.args.sys, tt.args.kid, tt.args.psshdata); got != tt.want {
+			if got := PsshBoxBinaryString(tt.args.ver, tt.args.sys, tt.args.psshdata); got != tt.want {
 				t.Errorf("PsshBoxBinaryString() = %v, want %v", got, tt.want)
 			}
 		})

@@ -6,7 +6,7 @@ import (
 	"fmt"
 )
 
-func PsshBoxBinaryString(ver int, sys string, kid []byte, psshdata string) string {
+func PsshBoxBinaryString(ver int, sys string, psshdata string) string {
 
 	psshbyte := []byte("pssh")
 	psshhex := make([]byte, hex.EncodedLen(len(psshbyte)))
