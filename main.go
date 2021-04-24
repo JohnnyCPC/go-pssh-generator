@@ -2,12 +2,12 @@ package main
 
 import (
 	"encoding/base64"
-	"encoding/hex"
 	"flag"
 	"fmt"
 
-	wvproto "github.com/JohnnyCPC/go-pssh-generator/proto"
+	"github.com/JohnnyCPC/go-pssh-generator/psshbox"
 	"github.com/JohnnyCPC/go-pssh-generator/util"
+	"github.com/JohnnyCPC/go-pssh-generator/wvpsshdata"
 
 	"github.com/golang/protobuf/proto"
 )
@@ -21,10 +21,11 @@ func main() {
 	Version := 0
 	contentid := "Test_Content_ID"
 	provider := "widevine_test"
+	//keyid := "12341234123412341234123412341234"
 
 	cidFlag := flag.String("contentid", contentid, "Content ID")
 	providerFlag := flag.String("provider", provider, "Provider name")
-	kidFlag := flag.String("keyid", "", "Key ID")
+	//kidFlag := flag.String("keyid", keyid, "Key ID")
 	//hexBoolFlag := flag.Bool("hex", false, "The output can be in hex")
 	//wvBoolFlag := flag.Bool("widevine", false, "widevine system id")
 
@@ -32,19 +33,9 @@ func main() {
 
 	cid := []byte(*cidFlag)
 
-	// Protect Scheme: cenc (default)
-	// 0x63 65 6E 63 (cenc), 0x63 65 6E 73 (cens), 0x63 62 63 31 (cbc1), 0x63 62 63 73 (cbcs)
-	wv := &wvproto.WidevinePsshData{
-		Provider:  providerFlag,
-		Algorithm: wvproto.WidevinePsshData_AESCTR.Enum(),
-		//KeyId:     [][]byte{kid},
-		ContentId: cid,
-		//ProtectionScheme: &psdint,
-	}
-	if *kidFlag != "" {
-		kid, _ := hex.DecodeString(*kidFlag)
-		wv.KeyId = [][]byte{kid}
-	}
+	//wv := wvpsshdata.Generatewidevinepsshdata(providerFlag, cid, kidFlag)
+	wv := wvpsshdata.Generatewidevinepsshdatawithcid(providerFlag, cid)
+	//wv := wvpsshdata.Generatewidevinepsshdatawithkey(providerFlag, kidFlag)
 
 	out, _ := proto.Marshal(wv)
 	outstr := fmt.Sprintf("%x", out)
@@ -53,7 +44,7 @@ func main() {
 	fmt.Println("PSSH Data: ", outstr)
 	fmt.Println("PSSH Data(base64): ", outbase64str)
 
-	result := util.PsshBoxBinaryString(Version, WIDEVINESYSTEMID, outstr)
+	result := psshbox.PsshBoxBinaryString(Version, WIDEVINESYSTEMID, outstr)
 	reshex, _ := util.DecodeHex([]byte(result))
 	resbase64 := base64.StdEncoding.EncodeToString(reshex)
 
