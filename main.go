@@ -9,7 +9,7 @@ import (
 	"github.com/JohnnyCPC/go-pssh-generator/util"
 	"github.com/JohnnyCPC/go-pssh-generator/wvpsshdata"
 
-	"github.com/golang/protobuf/proto"
+	"google.golang.org/protobuf/proto"
 )
 
 const (
